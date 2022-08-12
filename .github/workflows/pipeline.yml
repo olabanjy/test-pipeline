@@ -1,0 +1,35 @@
+name: Fetch-AWS-DATA
+
+# Trigger deployment only on push to master branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Fetch data from AWS Secret Manager
+    runs-on: ubuntu-latest
+
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          # role-to-assume: arn:aws:iam::111111111111:role/my-github-actions-role-test
+          aws-access-key-id: AKIA6FM7NRHRF5C6COFV
+          aws-secret-access-key: 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
+          aws-region: us-east-1
+
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v2.1.0
+        with:
+          secrets: my_secret
+          parse-json: true
