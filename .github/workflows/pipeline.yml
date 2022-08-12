@@ -46,7 +46,7 @@ jobs:
           mask-json-values: true
           keys-as-env-vars: true
           keys-as-outputs: true
-          append-to-env-file: ./my.env
+          append-to-env-file: ./.env
 
       - name: Use Secret
         run: |
