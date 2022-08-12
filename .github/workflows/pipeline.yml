@@ -36,3 +36,28 @@ jobs:
 
       - name: Check if env variable is set after fetching secrets
         run: if [ -z ${TEST_SECRET_DATA+x} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
+
+      # Trying another action
+      - name: Retrieve Secrets
+        id: secrets
+        uses: t-botz/aws-secrets-manager-read-action@v2
+        with:
+          secret-id: foo/bar
+          mask-json-values: true
+          keys-as-env-vars: true
+          keys-as-outputs: true
+          append-to-env-file: ./my.env
+
+      - name: Use Secret
+        run: |
+          # Will actually display '***' as secret will be masked in output
+          echo "${{ fromJSON(steps.secrets.outputs.secret).MY_SECRET }}"
+
+          # Same result thanks to `keys-as-outputs: true`
+          echo "${{ steps.secrets.outputs.MY_SECRET }}"
+
+          # Same result thanks to `keys-as-env-vars: true`
+          echo "$MY_SECRET"
+
+          # Show secret from env file
+          cat ./my.env
