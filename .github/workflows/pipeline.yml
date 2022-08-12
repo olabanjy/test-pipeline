@@ -33,3 +33,6 @@ jobs:
         with:
           secrets: my_secret
           parse-json: true
+
+      - name: Check if env variable is set after fetching secrets
+        run: if [ -z ${MY_SECRET+x} ]; then echo "MY_SECRET is unset"; else echo "MY_SECRET is set to '$MY_SECRET'"; fi
