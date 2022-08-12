@@ -29,7 +29,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Read secrets from AWS Secrets Manager into environment variables
-        uses: abhilash1in/aws-secrets-manager-action@v2.1.0
+        uses: abhilash1in/aws-secrets-manager-action@master
         with:
           secrets: TEST_SECRET_DATA
           parse-json: true
