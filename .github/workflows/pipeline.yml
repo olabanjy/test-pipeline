@@ -61,3 +61,13 @@ jobs:
 
           # Show secret from env file
           cat ./.env
+
+      - name: Store ENV from AWS SecretManager
+        uses: say8425/aws-secrets-manager-actions@v1
+        with:
+          AWS_ACCESS_KEY_ID: AKIA6FM7NRHRF5C6COFV
+          AWS_SECRET_ACCESS_KEY: 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
+          AWS_DEFAULT_REGION: us-east-1
+          SECRET_NAME: TEST_SECRET_DATA
+          OUTPUT_PATH: ".env" # optional
+          EXPORT_TO_ENV: true
