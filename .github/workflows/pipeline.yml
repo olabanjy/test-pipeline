@@ -31,8 +31,8 @@ jobs:
       - name: Read secrets from AWS Secrets Manager into environment variables
         uses: abhilash1in/aws-secrets-manager-action@v2.1.0
         with:
-          secrets: my_secret
+          secrets: TEST_SECRET_DATA
           parse-json: true
 
       - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${MY_SECRET} ]; then echo "MY_SECRET is unset"; else echo "MY_SECRET is set to '$MY_SECRET'"; fi
+        run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'";
