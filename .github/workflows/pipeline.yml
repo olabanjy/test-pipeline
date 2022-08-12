@@ -35,7 +35,7 @@ jobs:
           parse-json: true
 
       - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${TEST_SECRET_DATA+x} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
+        run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
 
       # Trying another action
       - name: Retrieve Secrets
@@ -61,14 +61,3 @@ jobs:
 
           # Show secret from env file
           cat ./.env
-
-      - name: Store ENV from AWS SecretManager
-        uses: say8425/aws-secrets-manager-actions@v1
-        with:
-          AWS_ACCESS_KEY_ID: AKIA6FM7NRHRF5C6COFV
-          AWS_SECRET_ACCESS_KEY: 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
-          AWS_DEFAULT_REGION: us-east-1
-          SECRET_NAME: TEST_SECRET_DATA
-          OUTPUT_PATH: ".env" # optional
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-          EXPORT_TO_ENV: true
