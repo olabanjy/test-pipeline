@@ -70,4 +70,4 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1
           SECRET_NAME: TEST_SECRET_DATA
           OUTPUT_PATH: ".env" # optional
-          EXPORT_TO_ENV: true
+
