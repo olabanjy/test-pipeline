@@ -42,7 +42,7 @@ jobs:
         id: secrets
         uses: t-botz/aws-secrets-manager-read-action@v2
         with:
-          secret-id: foo/bar
+          secret-id: TEST_SECRET_DATA
           mask-json-values: true
           keys-as-env-vars: true
           keys-as-outputs: true
