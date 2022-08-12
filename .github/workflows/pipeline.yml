@@ -51,13 +51,13 @@ jobs:
       - name: Use Secret
         run: |
           # Will actually display '***' as secret will be masked in output
-          echo "${{ fromJSON(steps.secrets.outputs.secret).MY_SECRET }}"
+          echo "${{ fromJSON(steps.secrets.outputs.secret).TEST_SECRET_DATA }}"
 
           # Same result thanks to `keys-as-outputs: true`
-          echo "${{ steps.secrets.outputs.MY_SECRET }}"
+          echo "${{ steps.secrets.outputs.TEST_SECRET_DATA }}"
 
           # Same result thanks to `keys-as-env-vars: true`
-          echo "$MY_SECRET"
+          echo "$TEST_SECRET_DATA"
 
           # Show secret from env file
           cat ./my.env
