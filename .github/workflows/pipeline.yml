@@ -60,4 +60,4 @@ jobs:
           echo "$TEST_SECRET_DATA"
 
           # Show secret from env file
-          cat ./my.env
+          cat ./.env
