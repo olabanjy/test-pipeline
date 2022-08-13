@@ -31,7 +31,7 @@ jobs:
       - name: Read secrets from AWS Secrets Manager into environment variables
         uses: abhilash1in/aws-secrets-manager-action@v2.1.0
         with:
-          secrets: TEST_SECRET_DATA
+          secrets: TEST_SECT_DATA
           parse-json: true
 
       # - name: Check if env variable is set after fetching secrets
