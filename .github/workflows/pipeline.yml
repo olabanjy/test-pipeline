@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     name: Fetch data from AWS Secret Manager
+    environment: secrets
     runs-on: ubuntu-latest
 
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
