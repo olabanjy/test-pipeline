@@ -25,8 +25,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           # role-to-assume: arn:aws:iam::111111111111:role/my-github-actions-role-test
-          aws-access-key-id: AKIA6FM7NRHRF5C6COFV
-          aws-secret-access-key: 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
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}} #AKIA6FM7NRHRF5C6COFV
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}} #E7ydWGn81dE5f8xtNX9ZkEC4JUDJdBofFRHakhhY
           aws-region: us-east-1
 
       - name: Read secrets from AWS Secrets Manager into environment variables
