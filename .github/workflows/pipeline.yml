@@ -55,32 +55,31 @@ jobs:
           script: |
             whoami
             ls -la
-            psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres:postgres -p 5432
 
     # - name: Check if env variable is set after fetching secrets
     #   run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
+  # psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres:postgres -p 5432
+  # # Trying another action
+  # - name: Retrieve Secrets
+  #   id: secrets
+  #   uses: t-botz/aws-secrets-manager-read-action@v2
+  #   with:
+  #     secret-id: TEST_SECRET_DATA
+  #     mask-json-values: true
+  #     keys-as-env-vars: true
+  #     keys-as-outputs: true
+  #     append-to-env-file: ./.env
 
-    # # Trying another action
-    # - name: Retrieve Secrets
-    #   id: secrets
-    #   uses: t-botz/aws-secrets-manager-read-action@v2
-    #   with:
-    #     secret-id: TEST_SECRET_DATA
-    #     mask-json-values: true
-    #     keys-as-env-vars: true
-    #     keys-as-outputs: true
-    #     append-to-env-file: ./.env
+  # - name: Use Secret
+  #   run: |
+  #     # Will actually display '***' as secret will be masked in output
+  #     echo "${{ fromJSON(steps.secrets.outputs.secret).TEST_SECRET_DATA }}"
 
-    # - name: Use Secret
-    #   run: |
-    #     # Will actually display '***' as secret will be masked in output
-    #     echo "${{ fromJSON(steps.secrets.outputs.secret).TEST_SECRET_DATA }}"
+  #     # Same result thanks to `keys-as-outputs: true`
+  #     echo "${{ steps.secrets.outputs.TEST_SECRET_DATA }}"
 
-    #     # Same result thanks to `keys-as-outputs: true`
-    #     echo "${{ steps.secrets.outputs.TEST_SECRET_DATA }}"
+  #     # Same result thanks to `keys-as-env-vars: true`
+  #     echo "$TEST_SECRET_DATA"
 
-    #     # Same result thanks to `keys-as-env-vars: true`
-    #     echo "$TEST_SECRET_DATA"
-
-    #     # Show secret from env file
-    #     cat ./.env
+  #     # Show secret from env file
+  #     cat ./.env
