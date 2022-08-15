@@ -35,30 +35,52 @@ jobs:
           secrets: TEST_SECRET_DATA
           parse-json: true
 
-      # - name: Check if env variable is set after fetching secrets
-      #   run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
-
-      # # Trying another action
-      # - name: Retrieve Secrets
-      #   id: secrets
-      #   uses: t-botz/aws-secrets-manager-read-action@v2
-      #   with:
-      #     secret-id: TEST_SECRET_DATA
-      #     mask-json-values: true
-      #     keys-as-env-vars: true
-      #     keys-as-outputs: true
-      #     append-to-env-file: ./.env
-
-      # - name: Use Secret
+      # METHOD 1
+      # - name: Fetch record from db server with aws cli
       #   run: |
-      #     # Will actually display '***' as secret will be masked in output
-      #     echo "${{ fromJSON(steps.secrets.outputs.secret).TEST_SECRET_DATA }}"
+      #     aws rds-data execute-statement \
 
-      #     # Same result thanks to `keys-as-outputs: true`
-      #     echo "${{ steps.secrets.outputs.TEST_SECRET_DATA }}"
+      # - name: SSH into dbserver
+      #   run: |
+      #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath]
 
-      #     # Same result thanks to `keys-as-env-vars: true`
-      #     echo "$TEST_SECRET_DATA"
+      #METHOD 2
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.TEST_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            whoami
+            ls -la
+            psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres:postgres -p 5432
 
-      #     # Show secret from env file
-      #     cat ./.env
+    # - name: Check if env variable is set after fetching secrets
+    #   run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
+
+    # # Trying another action
+    # - name: Retrieve Secrets
+    #   id: secrets
+    #   uses: t-botz/aws-secrets-manager-read-action@v2
+    #   with:
+    #     secret-id: TEST_SECRET_DATA
+    #     mask-json-values: true
+    #     keys-as-env-vars: true
+    #     keys-as-outputs: true
+    #     append-to-env-file: ./.env
+
+    # - name: Use Secret
+    #   run: |
+    #     # Will actually display '***' as secret will be masked in output
+    #     echo "${{ fromJSON(steps.secrets.outputs.secret).TEST_SECRET_DATA }}"
+
+    #     # Same result thanks to `keys-as-outputs: true`
+    #     echo "${{ steps.secrets.outputs.TEST_SECRET_DATA }}"
+
+    #     # Same result thanks to `keys-as-env-vars: true`
+    #     echo "$TEST_SECRET_DATA"
+
+    #     # Show secret from env file
+    #     cat ./.env
