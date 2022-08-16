@@ -70,6 +70,14 @@ jobs:
           user: ubuntu
           key: ${{ secrets.PRIVATE_KEY}}
 
+      - name: Execute SSH commmands on remote server
+        uses: JimCronqvist/action-ssh@master
+        with:
+          hosts: "ubuntu@${{secrets.TEST_HOST}}:22"
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          command: |
+            ls -lah
+
     # - name: Check if env variable is set after fetching secrets
     #   run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
 
