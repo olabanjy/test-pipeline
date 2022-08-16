@@ -45,18 +45,30 @@ jobs:
       #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath]
 
       #METHOD 2
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+      # - name: executing remote ssh commands using ssh key
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.TEST_HOST }}
+      #     username: ubuntu
+      #     key: ${{ secrets.PRIVATE_KEY }}
+      #     port: 22
+      #     script: |
+      #       whoami
+      #       ls -la
+      #       sudo apt install --yes postgresql postgresql-contrib
+      #       PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
+
+      - name: ssh into a dbserver
+        uses: fifsky/ssh-action@master
         with:
-          host: ${{ secrets.TEST_HOST }}
-          username: ubuntu
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
-          script: |
+          command: |
             whoami
             ls -la
             sudo apt install --yes postgresql postgresql-contrib
             PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
+          host: ${{ secrets.TEST_HOST }}
+          user: ubuntu
+          key: ${{ secrets.PRIVATE_KEY}}
 
     # - name: Check if env variable is set after fetching secrets
     #   run: if [ -z ${TEST_SECRET_DATA} ]; then echo "TEST_SECRET_DATA is unset"; else echo "TEST_SECRET_DATA is set to '$TEST_SECRET_DATA'"; fi
