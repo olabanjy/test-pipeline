@@ -35,6 +35,26 @@ jobs:
           secrets: TEST_SECRET_DATA
           parse-json: true
 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ubuntu
+          SSH_KEY: ${{ secrets.PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.TEST_HOST }}
+
+      - name: Stop the server
+        run: ssh staging 'sudo apt install --yes postgresql postgresql-contrib && PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432'
+
       # METHOD 1
       # - name: Fetch record from db server with aws cli
       #   run: |
@@ -44,9 +64,9 @@ jobs:
       #   run: |
       #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath] ###
 
-      - name: SSH into dbserver
-        run: |
-          ssh -N -L 5433:test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com:5432 ubuntu@${{ secrets.TEST_HOST }} -i ~/test_key_pair.pem
+      # - name: SSH into dbserver
+      #   run: |
+      #     ssh -N -L 5433:test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com:5432 ubuntu@${{ secrets.TEST_HOST }} -i ~/test_key_pair.pem
 
       #METHOD 2
       # ssh dev 'whoami && ls -la && sudo apt install --yes postgresql postgresql-contrib'
