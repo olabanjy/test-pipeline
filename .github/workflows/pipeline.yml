@@ -58,8 +58,20 @@ jobs:
       #       sudo apt install --yes postgresql postgresql-contrib
       #       PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
 
+      # - name: ssh into a dbserver
+      #   uses: fifsky/ssh-action@master
+      #   with:
+      #     command: |
+      #       whoami
+      #       ls -la
+      #       sudo apt install --yes postgresql postgresql-contrib
+      #       PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
+      #     host: ${{ secrets.TEST_HOST }}
+      #     user: ubuntu
+      #     key: ${{ secrets.PRIVATE_KEY}}
+
       - name: ssh into a dbserver
-        uses: fifsky/ssh-action@master
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: |
             whoami
@@ -67,7 +79,7 @@ jobs:
             sudo apt install --yes postgresql postgresql-contrib
             PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
           host: ${{ secrets.TEST_HOST }}
-          user: ubuntu
+          username: ubuntu
           key: ${{ secrets.PRIVATE_KEY}}
 
       # - name: Execute SSH commmands on remote server
