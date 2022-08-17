@@ -42,7 +42,7 @@ jobs:
 
       # - name: SSH into dbserver
       #   run: |
-      #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath]
+      #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath] ###
 
       - name: SSH into dbserver
         run: |
