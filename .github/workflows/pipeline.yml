@@ -44,6 +44,10 @@ jobs:
       #   run: |
       #     ssh -N -L [localPort]:[dbEndpoint]:[dbPort] [ec2xUser]@[ec2Domain] -i [keyFilePath]
 
+      - name: SSH into dbserver
+        run: |
+          ssh dev 'whoami && ls -la && sudo apt install --yes postgresql postgresql-contrib'
+
       #METHOD 2
       # - name: executing remote ssh commands using ssh key
       #   uses: appleboy/ssh-action@master
@@ -70,17 +74,17 @@ jobs:
       #     user: ubuntu
       #     key: ${{ secrets.PRIVATE_KEY}}
 
-      - name: ssh into a dbserver
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: |
-            whoami
-            ls -la
-            sudo apt install --yes postgresql postgresql-contrib
-            PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
-          host: ${{ secrets.TEST_HOST }}
-          username: ubuntu
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+      # - name: ssh into a dbserver
+      #   uses: garygrossgarten/github-action-ssh@release
+      #   with:
+      #     command: |
+      #       whoami
+      #       ls -la
+      #       sudo apt install --yes postgresql postgresql-contrib
+      #       PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432
+      #     host: ${{ secrets.TEST_HOST }}
+      #     username: ubuntu
+      #     privateKey: ${{ secrets.PRIVATE_KEY}}
 
       # - name: Execute SSH commmands on remote server
       #   uses: JimCronqvist/action-ssh@master
