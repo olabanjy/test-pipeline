@@ -53,7 +53,7 @@ jobs:
           SSH_HOST: ${{ secrets.TEST_HOST }}
 
       - name: Stop the server
-        run: ssh staging 'whoami && ls -la && sudo apt install --yes postgresql postgresql-contrib && PGPASSWORD=postgres psql -h test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com -d test_db -U postgres -p 5432'
+        run: ssh staging 'whoami && ls -la && sudo apt install --yes postgresql postgresql-contrib '
 
       # METHOD 1
       # - name: Fetch record from db server with aws cli
