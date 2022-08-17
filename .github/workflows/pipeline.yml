@@ -46,7 +46,7 @@ jobs:
 
       - name: SSH into dbserver
         run: |
-          ssh -N -L 5433:test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com:5432 ubuntu@${{ secrets.TEST_HOST }} -i {{secrets.PRIVATE_KEY}}
+          ssh -N -L 5433:test-db.c05xkkitzm1d.us-east-1.rds.amazonaws.com:5432 ubuntu@${{ secrets.TEST_HOST }} -i ~/test_key_pair.pem
 
       #METHOD 2
       # ssh dev 'whoami && ls -la && sudo apt install --yes postgresql postgresql-contrib'
